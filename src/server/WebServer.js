@@ -34,9 +34,9 @@ module.exports = class WebServer extends ExportServer {
             timeout : 5 * 60 * 1000 // 5 minutes
         }, options);
 
-        app.get("/", (req, res) => {
-            res.send("OOTI PDF export");
-        });
+        // app.get("/", (req, res) => {
+        //     res.send("OOTI PDF export");
+        // });
         app.use(addRequestId);
         app.use(bodyParser.json({ limit : options.maximum || '50mb' }));
         app.use(bodyParser.urlencoded({ extended : false, limit : options.maximum || '50mb' }));
@@ -254,12 +254,9 @@ module.exports = class WebServer extends ExportServer {
      * Start the service
      */
     start() {
-        this.app.get("/", (req, res) => {
-            res.send("OOTI PDF export");
-        });
-        // return Promise.all([
-        //     // this.startHttpServer(),
-        //     this.startHttpsServer()
-        // ]);
+        return Promise.all([
+            this.startHttpServer(),
+            this.startHttpsServer()
+        ]);
     }
 };
