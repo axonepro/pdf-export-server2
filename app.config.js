@@ -5,7 +5,7 @@ const config = {
   http: null,
 
   // HTTPS server port
-  https: process.env.PORT || 8080,
+  https: process.env.PORT,
 
   // CORS headers are always set, this config defined value for Access-Control-Allow-Origin header
   cors: "*",
