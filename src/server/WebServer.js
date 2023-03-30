@@ -12,12 +12,12 @@ const { RequestCancelError } = require('../exception.js');
 require("dotenv").config();
 
 module.exports = class WebServer extends ExportServer {
-    constructor(config) {
+    constructor(config, app) {
         super(config);
 
         this.files = {};
 
-        // this.createServer(config);
+        this.createServer(config, app);
     }
 
     /**
@@ -25,10 +25,10 @@ module.exports = class WebServer extends ExportServer {
      *
      * @param options The passed options from the command line
      */
-    createServer(options) {
-        const
-            me  = this,
-            app = me.app = express();
+    createServer(options, app) {
+        // const
+        //     me  = this,
+        //     app = me.app = express();
 
         options = Object.assign({
             timeout : 5 * 60 * 1000 // 5 minutes
@@ -254,19 +254,9 @@ module.exports = class WebServer extends ExportServer {
      * Start the service
      */
     start() {
-        const app = express();
-        // Create GET request
-        app.get("/", (req, res) => {
-          res.send("Express on Vercel");
-        });
-        // Initialize server
-        app.listen(5000, () => {
-          console.log("Running on port 5000.");
-        });
-        return
-        // return Promise.all([
-        //     this.startHttpServer(),
-        //     this.startHttpsServer()
-        // ]);
+        return Promise.all([
+            this.startHttpServer(),
+            this.startHttpsServer()
+        ]);
     }
 };
