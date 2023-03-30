@@ -238,10 +238,6 @@ module.exports = class WebServer extends ExportServer {
                     console.log('Https server started on port ' + this.httpsPort);
                     resolve();
                 });
-                // this.httpsServer.listen(process.env.PORT, () => {
-                //     console.log('Https server started on port ' + process.env.PORT);
-                //     resolve();
-                // });
             });
         }
     }
@@ -259,7 +255,7 @@ module.exports = class WebServer extends ExportServer {
      */
     start() {
         return Promise.all([
-            this.startHttpServer(),
+            // this.startHttpServer(),
             this.startHttpsServer()
         ]);
     }
