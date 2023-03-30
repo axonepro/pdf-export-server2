@@ -9,6 +9,7 @@ const path = require('path');
 const serveStatic = require('serve-static');
 const ExportServer = require('./ExportServer.js');
 const { RequestCancelError } = require('../exception.js');
+require("dotenv").config();
 
 module.exports = class WebServer extends ExportServer {
     constructor(config) {
@@ -33,6 +34,9 @@ module.exports = class WebServer extends ExportServer {
             timeout : 5 * 60 * 1000 // 5 minutes
         }, options);
 
+        app.get("/", (req, res) => {
+            res.send("OOTI PDF export");
+        });
         app.use(addRequestId);
         app.use(bodyParser.json({ limit : options.maximum || '50mb' }));
         app.use(bodyParser.urlencoded({ extended : false, limit : options.maximum || '50mb' }));
@@ -55,6 +59,13 @@ module.exports = class WebServer extends ExportServer {
             // app.use('/resources', express.static(options.resources));
             app.use('/resources', serveStatic(options.resources));
         }
+
+        // app.get("/", (req, res) => {
+        //     res.status(200).send("OOTI PDF export");
+        // });
+        // app.get("/", function (request, response) {
+        //     response.send("OOTI PDF export 2");
+        // });
 
         //Get the file, fileKey will be a guid. This serves the pdf
         app.get('/:fileKey/', (req, res) => {
@@ -223,8 +234,12 @@ module.exports = class WebServer extends ExportServer {
     startHttpsServer() {
         if (this.httpsServer) {
             return new Promise(resolve => {
-                this.httpsServer.listen(this.httpsPort, () => {
-                    console.log('Https server started on port ' + this.httpsPort);
+                // this.httpsServer.listen(this.httpsPort, () => {
+                //     console.log('Https server started on port ' + this.httpsPort);
+                //     resolve();
+                // });
+                this.httpsServer.listen(process.env.PORT, () => {
+                    console.log('Https server started on port ' + process.env.PORT);
                     resolve();
                 });
             });
