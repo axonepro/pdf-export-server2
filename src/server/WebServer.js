@@ -12,12 +12,12 @@ const { RequestCancelError } = require('../exception.js');
 require("dotenv").config();
 
 module.exports = class WebServer extends ExportServer {
-    constructor(config, app) {
+    constructor(config) {
         super(config);
 
         this.files = {};
 
-        this.createServer(config, app);
+        this.createServer(config);
     }
 
     /**
@@ -25,10 +25,10 @@ module.exports = class WebServer extends ExportServer {
      *
      * @param options The passed options from the command line
      */
-    createServer(options, app) {
-        // const
-        //     me  = this,
-        //     app = me.app = express();
+    createServer(options) {
+        const
+            me  = this,
+            app = me.app = express();
 
         options = Object.assign({
             timeout : 5 * 60 * 1000 // 5 minutes

@@ -3,7 +3,6 @@ const path = require('path');
 const Commands = require('./commands.js');
 const WebServer = require('./server/WebServer.js');
 let { config } = require('../app.config.js');
-const express = require("express");
 
 //Do a check if this is a Pkg executable or is executed from nodejs commandline
 const isPkg = typeof process.pkg !== 'undefined';
@@ -59,17 +58,9 @@ if (config.help) {
     process.exit();
 }
 else if (config.http || config.https) {
-    const app = express();
-    app.get("/", (req, res) => {
-      res.send("Express on Vercel");
-    });
-    app.listen(5000, () => {
-      console.log("Running on port 5000.");
-    });
+    // const webServer = new WebServer(config);
 
-    const webServer = new WebServer(config, app);
-
-    webServer.start();
+    // webServer.start();
 }
 else {
     commands.showHelp();
