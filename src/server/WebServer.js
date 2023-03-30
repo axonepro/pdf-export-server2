@@ -17,7 +17,7 @@ module.exports = class WebServer extends ExportServer {
 
         this.files = {};
 
-        this.createServer(config);
+        // this.createServer(config);
     }
 
     /**
