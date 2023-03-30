@@ -58,9 +58,9 @@ if (config.help) {
     process.exit();
 }
 else if (config.http || config.https) {
-    // const webServer = new WebServer(config);
+    const webServer = new WebServer(config);
 
-    // webServer.start();
+    webServer.start();
 }
 else {
     commands.showHelp();
