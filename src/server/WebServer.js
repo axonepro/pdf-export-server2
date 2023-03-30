@@ -17,6 +17,15 @@ module.exports = class WebServer extends ExportServer {
 
         this.files = {};
 
+        const app = express();
+        // Create GET request
+        app.get("/", (req, res) => {
+          res.send("Express on Vercel");
+        });
+        // Initialize server
+        app.listen(5000, () => {
+          console.log("Running on port 5000.");
+        });
         // this.createServer(config);
     }
 
@@ -254,16 +263,6 @@ module.exports = class WebServer extends ExportServer {
      * Start the service
      */
     start() {
-        const app = express();
-        // Create GET request
-        app.get("/", (req, res) => {
-          res.send("Express on Vercel");
-        });
-        // Initialize server
-        app.listen(5000, () => {
-          console.log("Running on port 5000.");
-        });
-
         // return Promise.all([
         //     this.startHttpServer(),
         //     this.startHttpsServer()
