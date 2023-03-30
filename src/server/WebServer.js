@@ -254,9 +254,12 @@ module.exports = class WebServer extends ExportServer {
      * Start the service
      */
     start() {
-        return Promise.all([
-            // this.startHttpServer(),
-            this.startHttpsServer()
-        ]);
+        this.app.get("/", (req, res) => {
+            res.send("OOTI PDF export");
+        });
+        // return Promise.all([
+        //     // this.startHttpServer(),
+        //     this.startHttpsServer()
+        // ]);
     }
 };
