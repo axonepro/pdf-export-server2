@@ -87,3 +87,9 @@ Most likely there is a problem on the server, see [troubleshooting](docs/trouble
 
 You can see errors like `NET::ERR_CERT_AUTHORITY_INVALID` or CORS exception (in Firefox). See
  [Make browser to accept self-signed certificate](#self-signed-certificate) section for more info.
+
+
+
+# DEPLOY
+heroku container:push web
+heroku container:release web
