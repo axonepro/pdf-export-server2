@@ -2,7 +2,6 @@ const express = require('express');
 const addRequestId = require('express-request-id')();
 const bodyParser = require('body-parser');
 const nanoid = require('nanoid');
-const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
@@ -28,7 +27,7 @@ module.exports = class WebServer extends ExportServer {
             timeout: 5 * 60 * 1000 // 5 minutes
         }, options);
 
-        const PORT = process.env.PORT || options.http || 8080;
+        const PORT = process.env.PORT || 8080;
 
         app.get("/", (req, res) => {
             res.send("OOTI PDF export");
@@ -114,11 +113,7 @@ module.exports = class WebServer extends ExportServer {
             next(err);
         });
 
-        me.httpPort = PORT;
         me.httpsPort = PORT;
-
-        me.httpServer = me.createHttpServer();
-        me.httpServer.timeout = options.timeout;
 
         me.httpsServer = me.createHttpsServer(path.join(process.cwd(), 'cert'));
         me.httpsServer.timeout = options.timeout;
@@ -143,31 +138,6 @@ module.exports = class WebServer extends ExportServer {
         return url;
     }
 
-    createHttpServer() {
-        return http.createServer(this.app);
-    }
-
-    startHttpServer() {
-        if (this.httpServer) {
-            return new Promise((resolve, reject) => {
-                this.httpServer.on('error', e => {
-                    if (e.code === 'EADDRINUSE' && this.findNextHttpPort) {
-                        this.httpServer.listen(++this.httpPort);
-                    } else {
-                        reject(e);
-                    }
-                });
-
-                this.httpServer.on('listening', () => {
-                    console.log('Http server started on port ' + this.httpPort);
-                    resolve();
-                });
-
-                this.httpServer.listen(this.httpPort);
-            });
-        }
-    }
-
     createHttpsServer(certPath) {
         const privateKey = fs.readFileSync(path.join(certPath, 'server.key'), 'utf8'),
               certificate = fs.readFileSync(path.join(certPath, 'server.crt'), 'utf8'),
@@ -187,18 +157,7 @@ module.exports = class WebServer extends ExportServer {
         }
     }
 
-    getHttpServer() {
-        return this.httpServer;
-    }
-
-    getHttpsServer() {
-        return this.httpsServer;
-    }
-
     start() {
-        return Promise.all([
-            this.startHttpServer(),
-            this.startHttpsServer()
-        ]);
+        return this.startHttpsServer();
     }
 };
