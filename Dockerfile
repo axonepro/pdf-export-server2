@@ -58,9 +58,9 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && rm -rf /var/lib/apt/lists/*
 
 # Manually download and install GLIBC 2.29
-RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.29-0ubuntu2_amd64.deb \
-    && dpkg -i libc6_2.29-0ubuntu2_amd64.deb \
-    && rm libc6_2.29-0ubuntu2_amd64.deb
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8_amd64.deb \
+    && dpkg -i libc6_2.39-0ubuntu8_amd64.deb\
+    && rm libc6_2.39-0ubuntu8_amd64.deb
 
 # Create non-root user
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
