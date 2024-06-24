@@ -83,5 +83,5 @@ EXPOSE 8080 8081
 
 # Set the user and start the application
 USER pptruser
-ENTRYPOINT ["node", "./src/server.js", "-H", "8081"]
+ENTRYPOINT ["node", "./src/server.js"]
 CMD ["bash"]
