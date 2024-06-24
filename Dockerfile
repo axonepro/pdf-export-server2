@@ -1,18 +1,20 @@
-FROM node:16.15.0
+FROM debian:bullseye-slim
 
-# Install basic dependencies
+# Install basic dependencies and Node.js
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     ca-certificates \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Add Google Chrome repository
+# Add Google Chrome repository and install Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update \
-    && apt-get install -y \
-    google-chrome-stable \
+    && apt-get install -y google-chrome-stable \
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \
     fonts-thai-tlwg \
@@ -56,11 +58,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     lsb-release \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
-
-# Manually download and install GLIBC 2.29
-RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8_amd64.deb \
-    && dpkg -i libc6_2.39-0ubuntu8_amd64.deb\
-    && rm libc6_2.39-0ubuntu8_amd64.deb
 
 # Create non-root user
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
