@@ -1,0 +1,1 @@
+web: node ./src/server.js -h 8080 -H 8081
